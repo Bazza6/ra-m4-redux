@@ -1,7 +1,8 @@
 import React from 'react'
+import { Body } from '../components/layout'
 
 function Profile() {
-  return <div>Mi Perfil</div>
+  return <Body>Mi Perfil</Body>
 }
 
 export default Profile

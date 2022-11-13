@@ -1,10 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import 'modern-normalize/modern-normalize.css'
-import App from './App'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { Home, Data } from './pages'
+import { paths } from './constants'
+import Profile from './pages/Profile'
+
+const router = createBrowserRouter([
+  {
+    element: <Home />,
+    path: paths.home,
+  },
+  {
+    element: <Data />,
+    path: paths.data,
+  },
+  {
+    element: <Profile />,
+    path: paths.profile,
+  },
+])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>,
 )

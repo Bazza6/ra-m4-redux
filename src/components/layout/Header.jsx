@@ -1,23 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FlexBox } from '../../styles'
+import { colors, Container, dimensions } from '../../styles'
+import { Text } from '../atoms'
+import { MainMenu } from '../molecules'
 
-const HeaderStyled = styled(FlexBox)`
-  padding-left: 2rem;
-  padding-right: 2rem;
+const HeaderStyled = styled(Container)`
+  padding-top: ${dimensions.spacing.xl};
+  padding-bottom: ${dimensions.spacing.xl};
 `
 
 function Header() {
   return (
     <HeaderStyled direction="row" justify="space-between">
-      <div>MIPISO.com</div>
-      <div>
-        <ul>
-          <li>Buscador</li>
-          <li>Datos</li>
-          <li>Mi Perfil</li>
-        </ul>
-      </div>
+      <Text as="span" color={colors.red}>
+        MIPISO.com
+      </Text>
+      <MainMenu />
     </HeaderStyled>
   )
 }

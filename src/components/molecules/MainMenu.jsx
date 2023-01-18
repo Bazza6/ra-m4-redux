@@ -1,6 +1,8 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { main } from '../../constants'
+import { colors } from '../../styles'
 
 const MainMenuStyled = styled.ul`
   display: flex;
@@ -16,13 +18,28 @@ const MainMenuStyled = styled.ul`
     }
   }
 `
+const StyledNavLink = styled(NavLink).attrs({
+  activeClassName: 'active',
+})`
+  color: ${colors.font.base};
+  text-decoration: none;
+  &.active {
+    font-weight: bold;
+  }
+`
 
 function MainMenu() {
+  // let activeStyle = {
+  //   textDecoration: 'underline',
+  // }
+
+  // let activeClassName = 'underline'
+
   return (
     <MainMenuStyled>
       {Object.values(main).map(({ path, label }) => (
         <li key={path}>
-          <a href={path}>{label}</a>
+          <StyledNavLink to={path}>{label}</StyledNavLink>
         </li>
       ))}
     </MainMenuStyled>

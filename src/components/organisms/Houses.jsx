@@ -13,6 +13,8 @@ function Houses() {
   const [currentPage, setCurrentPage] = useState(1)
   const { data, loading, isError, isSuccess } = useFetch(urls.houses)
 
+  const itemPage = 9
+
   useEffect(() => {
     if (!data) return
     setHouses(data)
@@ -24,7 +26,7 @@ function Houses() {
       {isError && <div>Error</div>}
       {isSuccess && (
         <Grid gridGap="32px">
-          {houses.map((house) => (
+          {houses.slice(0, itemPage * currentPage).map((house) => (
             <HouseCard
               key={house.id}
               title={house.title}
@@ -36,12 +38,14 @@ function Houses() {
         </Grid>
       )}
       <FlexBox align="center">
-        <Button
-          style={{ marginTop: '2rem' }}
-          onClick={() => setCurrentPage(currentPage + 1)}
-        >
-          Load more
-        </Button>
+        {houses.length >= itemPage * currentPage && (
+          <Button
+            style={{ marginTop: '2rem' }}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            Load more
+          </Button>
+        )}
       </FlexBox>
     </HousesStyled>
   )

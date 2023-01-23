@@ -27,6 +27,7 @@ const FormStyled = styled(FlexBox).attrs({ as: 'form' })`
 `
 
 function SubHeader({ ...props }) {
+  const handleClick = () => console.log('hola')
   return (
     <SubHeaderStyled {...props}>
       <Container>
@@ -41,6 +42,7 @@ function SubHeader({ ...props }) {
               { value: 'garaje', text: 'Garaje' },
               { value: 'chalets', text: 'Chalets' },
             ]}
+            onChange={(event) => console.log(event.target.value)}
           />
 
           <SelectGroup
@@ -53,9 +55,10 @@ function SubHeader({ ...props }) {
               { value: 'madrid', text: 'Madrid' },
               { value: 'zaragoza', text: 'Zaragoza' },
             ]}
+            onChange={(event) => console.log(event.target.value)}
           />
 
-          <Button>
+          <Button onClick={handleClick}>
             <Icon icon="search" />
           </Button>
         </FormStyled>

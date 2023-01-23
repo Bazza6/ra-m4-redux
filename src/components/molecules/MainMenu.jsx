@@ -19,7 +19,7 @@ const MainMenuStyled = styled.ul`
   }
 `
 const StyledNavLink = styled(NavLink).attrs({
-  activeClassName: 'active',
+  activeclassname: 'active',
 })`
   color: ${colors.font.base};
   text-decoration: none;
@@ -29,12 +29,6 @@ const StyledNavLink = styled(NavLink).attrs({
 `
 
 function MainMenu() {
-  // let activeStyle = {
-  //   textDecoration: 'underline',
-  // }
-
-  // let activeClassName = 'underline'
-
   return (
     <MainMenuStyled>
       {Object.values(main).map(({ path, label }) => (

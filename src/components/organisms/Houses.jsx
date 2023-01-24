@@ -1,44 +1,47 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../atoms'
 import { HouseCard } from '../molecules'
-import { useFetch } from '../../hooks'
 import { FlexBox, Grid } from '../../styles'
-import { urls } from '../../constants'
+import { getHouses } from '../../store/houses.slice'
 
 const HousesStyled = styled(FlexBox)``
 
 function Houses() {
-  const [houses, setHouses] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
-  const { data, loading, isError, isSuccess } = useFetch(urls.houses)
-
+  const dispatch = useDispatch()
+  const { reqStatus, houses } = useSelector((state) => state.houses)
+  const { byId, allIds, userFilters } = houses
   const itemPage = 9
 
   useEffect(() => {
-    if (!data) return
-    setHouses(data)
-  }, [data])
+    dispatch(getHouses())
+  }, [dispatch])
 
   return (
     <HousesStyled>
-      {loading && <div>Loading...</div>}
-      {isError && <div>Error</div>}
-      {isSuccess && (
+      {reqStatus === 'loading' && <div>Loading...</div>}
+      {reqStatus === 'failed' && <div>Error</div>}
+      {reqStatus === 'success' && (
         <Grid gridGap="32px">
-          {houses.slice(0, itemPage * currentPage).map((house) => (
-            <HouseCard
-              key={house.id}
-              title={house.title}
-              price={`${house.price}€`}
-              img={house.image}
-              link=""
-            />
-          ))}
+          {allIds
+            .slice(0, itemPage * currentPage)
+            .filter((id) => byId[id].city.includes(userFilters.city))
+            .filter((id) => byId[id].type.includes(userFilters.type))
+            .map((id) => (
+              <HouseCard
+                key={byId[id].id}
+                title={byId[id].title}
+                price={`${byId[id].price}€`}
+                img={byId[id].image}
+                link=""
+              />
+            ))}
         </Grid>
       )}
       <FlexBox align="center">
-        {houses.length >= itemPage * currentPage && (
+        {allIds.length >= itemPage * currentPage && ( // esto no va bien
           <Button
             style={{ marginTop: '2rem' }}
             onClick={() => setCurrentPage(currentPage + 1)}

@@ -59,9 +59,6 @@ function SubHeader({ ...props }) {
     }
   }, [byCity])
 
-  console.log('houses:::', houses)
-  // console.log('setUserFilterTitle:::', setUserFilterTitle)
-
   const handleClick = () => {
     dispatch(setUserFilterTitle(selectedType))
     dispatch(setUserFilterCity(selectedCity))

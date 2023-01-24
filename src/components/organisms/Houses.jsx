@@ -16,7 +16,7 @@ function Houses() {
   const itemPage = 9
 
   useEffect(() => {
-    dispatch(getHouses())
+    dispatch(getHouses()) // Pasar aquí al thunk los parametros necesarios para la paginación
   }, [dispatch])
 
   return (
@@ -26,7 +26,7 @@ function Houses() {
       {reqStatus === 'success' && (
         <Grid gridGap="32px">
           {allIds
-            .slice(0, itemPage * currentPage)
+            .slice(0, itemPage * currentPage) // La paginación que muestras no es real, deberías de pedir a la API los items que quieres
             .filter((id) => byId[id].city.includes(userFilters.city))
             .filter((id) => byId[id].type.includes(userFilters.type))
             .map((id) => (

@@ -31,12 +31,13 @@ const FormStyled = styled(FlexBox).attrs({ as: 'form' })`
 function SubHeader({ ...props }) {
   const { houses } = useSelector((state) => state.houses)
   const { byCity, byType } = houses
-  const [typeList, setTypeList] = useState([])
-  const [cityList, setCityList] = useState([])
+  const [typeList, setTypeList] = useState([]) // ambos sobran
+  const [cityList, setCityList] = useState([]) // ambos sobran
   const dispatch = useDispatch()
   const [selectedType, setSelectedType] = useState('')
   const [selectedCity, setSelectedCity] = useState('')
 
+  // Ambos useEffect sobrarían
   useEffect(() => {
     if (byType) {
       setTypeList(

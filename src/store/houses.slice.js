@@ -1,17 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import urls from '../constants/urls'
 
-export const getHouses = createAsyncThunk(
-  'houses/getHouses',
-  async () => {
-    const res = await fetch(urls.houses)
-    const data = await res.json()
-    return data
-  }
-)
+export const getHouses = createAsyncThunk('houses/getHouses', async () => {
+  const res = await fetch(urls.houses)
+  const data = await res.json()
+  return data
+})
 
 const initialState = {
-  reqStatus: 'initial',
+  reqStatus: 'initial', // Aquí añade isError, isLoading, isSuccess para facilitar la gestión
   houses: {
     byId: {},
     allIds: [],
@@ -33,7 +30,7 @@ export const housesSlice = createSlice({
     },
     setUserFilterCity: (state, action) => {
       state.houses.userFilters.city = action.payload
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getHouses.pending, (state) => {
@@ -46,6 +43,13 @@ export const housesSlice = createSlice({
         if (!state.houses.allIds.includes(house.id)) {
           state.houses.allIds.push(house.id)
         }
+        // Trataria de simplificar esta lógica.
+        // Con tener un array con las ciudades bastaria
+        // Luego puedes usarlo para mapear en los selectores
+        // if (!state.cities.includes(house.city)) {
+        //     state.cities.push(house.city)
+        // }
+
         if (!state.houses.byCity[house.city]) {
           state.houses.byCity[house.city] = []
         }

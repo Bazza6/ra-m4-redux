@@ -17,13 +17,24 @@ const initialState = {
     allIds: [],
     byCity: {},
     byType: {},
+    userFilters: {
+      type: '',
+      city: '',
+    },
   },
 }
 
 export const housesSlice = createSlice({
   name: 'houses',
   initialState,
-  reducers: {},
+  reducers: {
+    setUserFilterTitle: (state, action) => {
+      state.houses.userFilters.type = action.payload
+    },
+    setUserFilterCity: (state, action) => {
+      state.houses.userFilters.city = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(getHouses.pending, (state) => {
       state.reqStatus = 'loading'
@@ -50,5 +61,6 @@ export const housesSlice = createSlice({
     })
   },
 })
+export const { setUserFilterTitle, setUserFilterCity } = housesSlice.actions
 
 export default housesSlice.reducer

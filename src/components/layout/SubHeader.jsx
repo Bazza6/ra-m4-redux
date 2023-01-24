@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { colors, Container, dimensions, FlexBox } from '../../styles'
 import { Button, Icon } from '../atoms'
@@ -27,6 +28,33 @@ const FormStyled = styled(FlexBox).attrs({ as: 'form' })`
 `
 
 function SubHeader({ ...props }) {
+  const { houses } = useSelector((state) => state.houses)
+  const { byCity, byType } = houses
+  const [typeList, setTypeList] = useState([])
+  const [cityList, setCityList] = useState([])
+
+  useEffect(() => {
+    if (byType) {
+      setTypeList(
+        Object.keys(byType).map((type) => ({
+          value: type,
+          text: type, // falta mayuscula
+        })),
+      )
+    }
+  }, [byType])
+
+  useEffect(() => {
+    if (byCity) {
+      setCityList(
+        Object.keys(byCity).map((city) => ({
+          value: city,
+          text: city, // falta mayuscula
+        })),
+      )
+    }
+  }, [byCity])
+
   const handleClick = () => console.log('hola')
   return (
     <SubHeaderStyled {...props}>
@@ -37,11 +65,7 @@ function SubHeader({ ...props }) {
             label="Tipo"
             defaultText="Piso, chalet o garaje..."
             hideLabel
-            options={[
-              { value: 'piso', text: 'Piso' },
-              { value: 'garaje', text: 'Garaje' },
-              { value: 'chalets', text: 'Chalets' },
-            ]}
+            options={typeList}
             onChange={(event) => console.log(event.target.value)}
           />
 
@@ -50,11 +74,7 @@ function SubHeader({ ...props }) {
             label="Ciudad"
             defaultText="Madrid, Barcelona o Zaragoza..."
             hideLabel
-            options={[
-              { value: 'barcelona', text: 'Barcelona' },
-              { value: 'madrid', text: 'Madrid' },
-              { value: 'zaragoza', text: 'Zaragoza' },
-            ]}
+            options={cityList}
             onChange={(event) => console.log(event.target.value)}
           />
 

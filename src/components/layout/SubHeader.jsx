@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { setUserFilterCity, setUserFilterTitle } from '../../store/houses.slice'
 import { colors, Container, dimensions, FlexBox } from '../../styles'
 import { Button, Icon } from '../atoms'
 import { SelectGroup } from '../molecules'
@@ -32,6 +33,9 @@ function SubHeader({ ...props }) {
   const { byCity, byType } = houses
   const [typeList, setTypeList] = useState([])
   const [cityList, setCityList] = useState([])
+  const dispatch = useDispatch()
+  const [selectedType, setSelectedType] = useState('')
+  const [selectedCity, setSelectedCity] = useState('')
 
   useEffect(() => {
     if (byType) {
@@ -55,7 +59,13 @@ function SubHeader({ ...props }) {
     }
   }, [byCity])
 
-  const handleClick = () => console.log('hola')
+  console.log('houses:::', houses)
+  // console.log('setUserFilterTitle:::', setUserFilterTitle)
+
+  const handleClick = () => {
+    dispatch(setUserFilterTitle(selectedType))
+    dispatch(setUserFilterCity(selectedCity))
+  }
   return (
     <SubHeaderStyled {...props}>
       <Container>
@@ -66,7 +76,7 @@ function SubHeader({ ...props }) {
             defaultText="Piso, chalet o garaje..."
             hideLabel
             options={typeList}
-            onChange={(event) => console.log(event.target.value)}
+            onChange={(e) => setSelectedType(e.target.value)}
           />
 
           <SelectGroup
@@ -75,7 +85,7 @@ function SubHeader({ ...props }) {
             defaultText="Madrid, Barcelona o Zaragoza..."
             hideLabel
             options={cityList}
-            onChange={(event) => console.log(event.target.value)}
+            onChange={(e) => setSelectedCity(e.target.value)}
           />
 
           <Button onClick={handleClick}>

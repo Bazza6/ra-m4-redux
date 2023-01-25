@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { setUserFilterCity, setUserFilterTitle } from '../../store/houses.slice'
@@ -30,39 +30,26 @@ const FormStyled = styled(FlexBox).attrs({ as: 'form' })`
 
 function SubHeader({ ...props }) {
   const { houses } = useSelector((state) => state.houses)
-  const { byCity, byType } = houses
-  const [typeList, setTypeList] = useState([])
-  const [cityList, setCityList] = useState([])
+  const { cities, types } = houses
   const dispatch = useDispatch()
   const [selectedType, setSelectedType] = useState('')
   const [selectedCity, setSelectedCity] = useState('')
 
-  useEffect(() => {
-    if (byType) {
-      setTypeList(
-        Object.keys(byType).map((type) => ({
-          value: type,
-          text: type, // falta mayuscula
-        })),
-      )
-    }
-  }, [byType])
+  const typeList = types.map((type) => ({
+    value: type,
+    text: type,
+  }))
 
-  useEffect(() => {
-    if (byCity) {
-      setCityList(
-        Object.keys(byCity).map((city) => ({
-          value: city,
-          text: city, // falta mayuscula
-        })),
-      )
-    }
-  }, [byCity])
+  const cityList = cities.map((city) => ({
+    value: city,
+    text: city,
+  }))
 
   const handleClick = () => {
     dispatch(setUserFilterTitle(selectedType))
     dispatch(setUserFilterCity(selectedCity))
   }
+
   return (
     <SubHeaderStyled {...props}>
       <Container>

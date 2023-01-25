@@ -11,22 +11,23 @@ const HousesStyled = styled(FlexBox)``
 function Houses() {
   const [currentPage, setCurrentPage] = useState(1)
   const dispatch = useDispatch()
-  const { reqStatus, houses } = useSelector((state) => state.houses)
+  const { isError, isLoading, isSuccess, houses } = useSelector(
+    (state) => state.houses,
+  )
   const { byId, allIds, userFilters } = houses
   const itemPage = 9
 
   useEffect(() => {
-    dispatch(getHouses())
-  }, [dispatch])
+    dispatch(getHouses({ page: currentPage, limit: itemPage }))
+  }, [dispatch, currentPage])
 
   return (
     <HousesStyled>
-      {reqStatus === 'loading' && <div>Loading...</div>}
-      {reqStatus === 'failed' && <div>Error</div>}
-      {reqStatus === 'success' && (
+      {isLoading && <div>Loading...</div>}
+      {isError && <div>Error</div>}
+      {isSuccess && (
         <Grid gridGap="32px">
           {allIds
-            .slice(0, itemPage * currentPage)
             .filter((id) => byId[id].city.includes(userFilters.city))
             .filter((id) => byId[id].type.includes(userFilters.type))
             .map((id) => (
@@ -41,7 +42,7 @@ function Houses() {
         </Grid>
       )}
       <FlexBox align="center">
-        {allIds.length >= itemPage * currentPage && ( // esto no va bien
+        {allIds.length >= itemPage * currentPage && (
           <Button
             style={{ marginTop: '2rem' }}
             onClick={() => setCurrentPage(currentPage + 1)}
